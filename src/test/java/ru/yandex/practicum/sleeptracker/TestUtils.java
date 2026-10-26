@@ -8,7 +8,9 @@ import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
 public class TestUtils {
 
-    private TestUtils() {}
+    private TestUtils() {
+
+    }
 
     public static SleepingSession buildSession(LocalDateTime start, LocalDateTime end) {
         return new SleepingSession(
