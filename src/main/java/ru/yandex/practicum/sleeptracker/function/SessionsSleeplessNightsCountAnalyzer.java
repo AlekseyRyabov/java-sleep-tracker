@@ -29,8 +29,7 @@ public class SessionsSleeplessNightsCountAnalyzer implements Function<List<Sleep
             .count();
         long count = ChronoUnit.DAYS.between(
             sleepingSessions.getFirst().getStartSession().toLocalDate(),
-            sleepingSessions.getLast().getEndSession().toLocalDate().plusDays(1)
-        ) - countNights;
+            sleepingSessions.getLast().getEndSession().toLocalDate().plusDays(1)) - countNights;
         LocalTime firstSessionTime = sleepingSessions.getFirst().getStartSession().toLocalTime();
         if (firstSessionTime.isBefore(LocalTime.of(12, 0 ))
             && firstSessionTime.isAfter(LocalTime.of(6, 0))) {
