@@ -23,6 +23,7 @@ public class SleepTrackerApp {
 
     private static final List<Function<List<SleepingSession>, Optional<SleepAnalysisResult>>> ANALYZERS =
         new ArrayList<>();
+
     static {
         ANALYZERS.add(new SessionsCountAnalyzer());
         ANALYZERS.add(new SessionsMinDurationAnalyzer());
@@ -32,6 +33,7 @@ public class SleepTrackerApp {
         ANALYZERS.add(new SessionsSleeplessNightsCountAnalyzer());
         ANALYZERS.add(new SessionsChronoTypeAnalyzer());
     }
+
     private static final List<SleepingSession> sessions = new ArrayList<>();
     private static final String PERIOD_MESSAGE_FORMAT = "За период с %s по %s:%n";
 
@@ -48,7 +50,9 @@ public class SleepTrackerApp {
             while (Objects.nonNull(session = br.readLine())) {
                 sessions.add(new SleepingSession(session));
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+
+        }
         if (sessions.isEmpty()) {
             return;
         }
