@@ -28,16 +28,16 @@ public class SleepingSession {
     private final SleepQuality sleepQuality;
 
     public SleepingSession(LocalDateTime startSession, LocalDateTime endSession, SleepQuality sleepQuality) {
-        this.startSession= startSession;
-        this.endSession= endSession;
-        this.sleepQuality= sleepQuality;
+        this.startSession = startSession;
+        this.endSession = endSession;
+        this.sleepQuality = sleepQuality;
     }
 
     public SleepingSession(String session) {
         String[] parts = session.split(SESSION_DATA_SPLITTER);
-        this.startSession= LocalDateTime.parse(parts[0], DATE_TIME_FORMATTER);
-        this.endSession= LocalDateTime.parse(parts[1], DATE_TIME_FORMATTER);
-        this.sleepQuality= SleepQuality.valueOf(parts[2]);
+        this.startSession = LocalDateTime.parse(parts[0], DATE_TIME_FORMATTER);
+        this.endSession = LocalDateTime.parse(parts[1], DATE_TIME_FORMATTER);
+        this.sleepQuality = SleepQuality.valueOf(parts[2]);
     }
 
 
