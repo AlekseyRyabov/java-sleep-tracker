@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
+import ru.yandex.practicum.sleeptracker.utils.Constants;
 
 /**
  * Анализ количества бессоных ночей.
@@ -24,15 +25,15 @@ public class SessionsSleeplessNightsCountAnalyzer implements Function<List<Sleep
             .filter(
                 sleepingSession ->
                     !sleepingSession.getStartSession().toLocalDate().equals(sleepingSession.getEndSession().toLocalDate())
-                        || !sleepingSession.getStartSession().toLocalTime().isAfter(LocalTime.of(6, 0))
+                        || !sleepingSession.getStartSession().toLocalTime().isAfter(Constants.MORNING_SIX)
             )
             .count();
         long count = ChronoUnit.DAYS.between(
             sleepingSessions.getFirst().getStartSession().toLocalDate(),
-            sleepingSessions.getLast().getEndSession().toLocalDate().plusDays(1)) - countNights;
+            sleepingSessions.getLast().getEndSession().toLocalDate().plusDays(Constants.DAY)) - countNights;
         LocalTime firstSessionTime = sleepingSessions.getFirst().getStartSession().toLocalTime();
-        if (firstSessionTime.isBefore(LocalTime.of(12, 0))
-            && firstSessionTime.isAfter(LocalTime.of(6, 0))) {
+        if (firstSessionTime.isBefore(Constants.MIDDAY)
+            && firstSessionTime.isAfter(Constants.MORNING_SIX)) {
             count++;
         }
         return Optional.of(new SleepAnalysisResult(RESULT_MESSAGE_FORMAT, count, Long.class));

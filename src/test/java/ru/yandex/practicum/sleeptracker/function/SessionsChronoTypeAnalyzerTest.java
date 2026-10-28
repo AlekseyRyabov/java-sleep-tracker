@@ -1,5 +1,7 @@
 package ru.yandex.practicum.sleeptracker.function;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -92,6 +94,34 @@ class SessionsChronoTypeAnalyzerTest {
                     .orElseThrow(() -> new RuntimeException("Ошибка в методе функции"))
             )
         );
+    }
+
+    @Test
+    void getChronoTypeBySessionTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        SleepingSession owl = TestUtils.buildSession(
+            LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 1)),
+            LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(9, 1))
+        );
+        SleepingSession lark = TestUtils.buildSession(
+            LocalDateTime.of(LocalDate.now(), LocalTime.of(21, 59)),
+            LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(6, 59))
+        );
+        SleepingSession pigeon = TestUtils.buildSession(
+            LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 0)),
+            LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(9, 0))
+        );
+        SleepingSession pigeon2 = TestUtils.buildSession(
+            LocalDateTime.of(LocalDate.now(), LocalTime.of(22, 0)),
+            LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(7, 0))
+        );
+        Method getChronoTypeBySession =
+            SessionsChronoTypeAnalyzer.class.getDeclaredMethod("getChronoTypeBySession", SleepingSession.class);
+        getChronoTypeBySession.setAccessible(true);
+
+        Assertions.assertSame(ChronoType.OWL, getChronoTypeBySession.invoke(analyzer, owl));
+        Assertions.assertSame(ChronoType.LARK, getChronoTypeBySession.invoke(analyzer, lark));
+        Assertions.assertSame(ChronoType.PIGEON, getChronoTypeBySession.invoke(analyzer, pigeon));
+        Assertions.assertSame(ChronoType.PIGEON, getChronoTypeBySession.invoke(analyzer, pigeon2));
     }
 
 }
